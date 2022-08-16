@@ -1,4 +1,4 @@
-## comic\_convert
+# comic\_convert
 
 This script is used for decode pictures from jmcomic. So have fun and take care of yourself.
 - - -

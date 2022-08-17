@@ -9,6 +9,8 @@ AVAILABLE_FORMATS = {".png", ".jpg", ".jpeg", ".bmp"}
 
 def main():
     pygame.init()
+    info = pygame.display.Info()
+    screen_size = (info.current_w, info.current_h)
     for root, dirs, files in os.walk(WORKSPACE):
         if root != WORKSPACE:
             continue
@@ -17,8 +19,18 @@ def main():
                 img = pygame.image.load(os.path.join(root, file))
                 width, height = img.get_size()
                 result = pygame.Surface((width, height))
-                screen = pygame.display.set_mode((width, height))
-                screen.blit(img, (0, 0))
+                
+                #now calcutate a proper scale of picture to display
+                if img.get_width() <= screen_size[0] * 0.7 and img.get_height() <= screen_size[1] * 0.7:
+                    scale = 1
+                else: #in order to make sure that the picture's width and height are both lower than screen_size * 0.7
+                    scale =  screen_size[0] * 0.7 / img.get_width()
+                    if img.get_height() * scale > screen_size[1] * 0.7:
+                        scale =  screen_size[1] * 0.7 / img.get_height()
+                
+                screen = pygame.display.set_mode((int(img.get_width() * scale), int(img.get_height() * scale)))
+                screen.blit(pygame.transform.smoothscale(img, (int(img.get_width() * scale), int(img.get_height() * scale))), (0, 0))
+                    
                 finished = False
                 block_num = 0
                 while not finished:
@@ -55,7 +67,7 @@ def main():
                                 continue
                             
                             if block_num == 0:
-                                result.blit(img)
+                                result.blit(img, (0, 0))
                             else:
                                 copied_height = 0
                                 block_height = height // block_num
@@ -71,7 +83,7 @@ def main():
                                     porter.blit(img, (0, 0), area)
                                     result.blit(porter, (0, copied_height))
                                     copied_height += current_height
-                                    screen.blit(result, (0, 0))
+                                    screen.blit(pygame.transform.smoothscale(result, (int(result.get_width() * scale), int(result.get_height() * scale))), (0, 0))
                     pygame.display.update()
 
 if __name__ == "__main__":

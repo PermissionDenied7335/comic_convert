@@ -3,7 +3,8 @@ import pygame
 import os
 import sys
 
-WORKSPACE = os.path.dirname(__file__)
+from frozen_dir import WORKSPACE
+#WORKSPACE = os.path.dirname(__file__)
 OUTPUT = os.path.join(WORKSPACE, "result/")
 AVAILABLE_FORMATS = {".png", ".jpg", ".jpeg", ".bmp"}
 

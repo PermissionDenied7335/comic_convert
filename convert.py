@@ -20,6 +20,7 @@ def main():
                 img = pygame.image.load(os.path.join(root, file))
                 width, height = img.get_size()
                 result = pygame.Surface((width, height))
+                result.blit(img, (0, 0)) #For 0-block support
                 
                 #now calcutate a proper scale of picture to display
                 if img.get_width() <= screen_size[0] * 0.7 and img.get_height() <= screen_size[1] * 0.7:

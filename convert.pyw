@@ -9,6 +9,8 @@ OUTPUT = os.path.join(WORKSPACE, "result/")
 AVAILABLE_FORMATS = {".png", ".jpg", ".jpeg", ".bmp"}
 
 def main():
+    if not os.path.exists(OUTPUT):
+        os.mkdir(OUTPUT)
     pygame.init()
     info = pygame.display.Info()
     screen_size = (info.current_w, info.current_h)
